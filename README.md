@@ -62,11 +62,26 @@ You can also specify a different Mistral model for the interactive session:
     python mistral-cli.py -i -m mistral-tiny
 
 Once in interactive mode, type your message at the You: prompt and press Enter. The AI's response will be displayed. To exit the interactive session, type exit or quit and press Enter.
+
 Help
 
 To see all available command-line arguments, use the --help flag:
 
     python mistral-cli.py --help
+
+## Error Handling
+
+The script includes basic error handling for API calls, such as network issues, HTTP errors, and unexpected API responses. If you encounter an "Error: MISTRAL_API_KEY not set" message, please ensure you have correctly set your API key as described in the "Set Your API Key" section.
+
+## Customization
+
+You can modify the DEFAULT_MODEL, temperature, and max_tokens variables within the mistral_cli.py script to adjust the behavior of the API calls.
+
+**DEFAULT_MODEL**: Change the default model used if not specified via the command line.
+
+**temperature**: Controls the randomness of the output. Lower values produce more deterministic results, while higher values lead to more diverse and creative outputs.
+
+**max_tokens**: Sets the maximum number of tokens (words/characters) the AI can generate in its response.
 
 ## Author: Alex Mendes
 
