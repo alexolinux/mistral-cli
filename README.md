@@ -24,9 +24,9 @@ You need an API key from Mistral AI. If you don't have one, please refer to the 
 
 Before running the script, ensure you have the following installed:
 
-    Python 3.6+
+    - Python 3.6+
 
-    requests library
+    - `requests` Python library
 
 You can install the requests library using pip:
 
@@ -36,7 +36,7 @@ Or you can create a Python VirtualEnv for this:
 
     python -m venv .venv
     source .venv/bin/activate
-    pip install requests --user
+    pip install -r requirements.txt
 
 ## Setup
 
