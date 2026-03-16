@@ -96,6 +96,64 @@ You can modify the DEFAULT_MODEL, temperature, and max_tokens variables within t
 
 **max_tokens**: Sets the maximum number of tokens (words/characters) the AI can generate in its response.
 
+## Extra Shell Configuration
+
+For a more seamless experience, you can add the following function to your shell's configuration file (e.g., `.bashrc`, `.zshrc`). This function simplifies how you interact with `mistral-cli`.
+
+### Advantages
+
+- **Simplicity**: Just type `mistral` instead of the full command (`python path/to/mistral-cli.py`).
+- **Automatic Piping**: The function automatically detects if you are piping input into it. For example: `cat file.txt | mistral "summarize this"`.
+- **Flexible Input**: It intelligently handles different scenarios:
+  - `mistral "your prompt"`: Runs with a simple prompt.
+  - `cat file.txt | mistral`: Uses the file's content as a prompt.
+  - `cat file.txt | mistral "context"`: Prepends the arguments as context to the piped input.
+  - `mistral -i`: Starts interactive mode as expected.
+  - `mistral`: With no arguments or pipe, it defaults to interactive mode.
+- **Alias-Free**: It avoids the limitations of a simple shell alias, allowing for more complex logic.
+
+### Shell Function
+
+```shell
+mistral() {
+  local base="${PKG}/mistral-cli"
+  local python="${base}/.venv/bin/python"
+  local script="${base}/mistral-cli.py"
+
+  local input=""
+
+  # detectar pipe
+  if [[ ! -t 0 ]]; then
+    input="$(cat)"
+  fi
+
+  # se flags foram usadas
+  if [[ "$1" == -* ]]; then
+    "$python" "$script" "$@"
+    return
+  fi
+
+  # pipe + argumento
+  if [[ -n "$input" && $# -gt 0 ]]; then
+    "$python" "$script" -p "$*"$'\n\n'"$input"
+  
+  # somente pipe
+  elif [[ -n "$input" ]]; then
+    "$python" "$script" -p "$input"
+
+  # somente argumento
+  elif [[ $# -gt 0 ]]; then
+    "$python" "$script" -p "$*"
+
+  # modo interativo
+  else
+    "$python" "$script" -i
+  fi
+}
+```
+
+*Note: Make sure to replace `"${PKG}/mistral-cli"` with the actual path to the `mistral-cli` directory if you don't have a `$PKG` variable set.*
+
 ## Author: Alex Mendes
 
 [https://alexolinux.com](https://alexolinux.com)
