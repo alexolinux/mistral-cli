@@ -5,9 +5,11 @@ import os
 
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", "YOUR_MISTRAL_API_KEY")
 MISTRAL_API_BASE_URL = "https://api.mistral.ai/v1/chat/completions"
+
 # Available models:
+# https://docs.mistral.ai/getting-started/models
 # [ "mistral-tiny", "devstral-latest", "devstral-medium-latest", "devstral-2512", "labs-mistral-small-creative" ]
-DEFAULT_MODEL = "mistral-vibe-cli-latest"
+DEFAULT_MODEL = "devstral-2512"
 
 def call_mistral_api(prompt, model=DEFAULT_MODEL):
     if MISTRAL_API_KEY == "YOUR_MISTRAL_API_KEY":
