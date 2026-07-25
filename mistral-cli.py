@@ -11,6 +11,14 @@ MISTRAL_API_BASE_URL = "https://api.mistral.ai/v1/chat/completions"
 # [ "mistral-tiny", "devstral-latest", "devstral-medium-latest", "devstral-2512", "labs-mistral-small-creative" ]
 DEFAULT_MODEL = "devstral-2512"
 
+AVAILABLE_MODELS = [
+    "mistral-tiny",
+    "devstral-latest",
+    "devstral-medium-latest",
+    "devstral-2512",
+    "labs-mistral-small-creative"
+]
+
 def call_mistral_api(prompt, model=DEFAULT_MODEL):
     if MISTRAL_API_KEY == "YOUR_MISTRAL_API_KEY":
         print("Error: MISTRAL_API_KEY not set. Please set the environment variable or update the script.")
@@ -107,6 +115,11 @@ if __name__ == "__main__":
         help=f"Specify the Mistral model to use (e.g., 'mistral-tiny', 'mistral-small', 'mistral-medium'). Default: {DEFAULT_MODEL}"
     )
     parser.add_argument(
+        "-l", "--list",
+        action="store_true",
+        help="List available models and exit"
+    )
+    parser.add_argument(
         "-i", "--interactive",
         action="store_true",
         help="Run in interactive chat mode. Overrides --prompt if both are provided."
@@ -114,7 +127,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.interactive:
+    if args.list:
+        print("Available models:")
+        for model in AVAILABLE_MODELS:
+            print(f" - {model}")
+        exit(0)
+    elif args.interactive:
         run_interactive_mode(args.model)
     elif args.prompt:
         run_non_interactive_mode(args.prompt, args.model)
