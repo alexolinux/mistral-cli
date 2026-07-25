@@ -17,7 +17,7 @@ This Python script provides a command-line interface (CLI) to interact with the 
 
 You need an API key from Mistral AI. If you don't have one, please refer to the Mistral AI documentation for instructions on how to obtain it.
 
-```bash
+```shell
 export MISTRAL_API_KEY=<YOUR_API_KEY>
 ```
 
@@ -28,13 +28,13 @@ Before running the script, ensure you have the following installed:
 
 You can install the requests library using pip:
 
-```bash
+```shell
 pip install requests --user
 ```
 
 Or you can create a Python VirtualEnv for this:
 
-```bash
+```shell
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -48,13 +48,13 @@ Navigate to the directory where you saved `mistral-cli.py` in your terminal.
 
 Use the `-p` or `--prompt` flag to provide a single prompt. The script will print the AI's response and then exit.
 
-```bash
+```shell
 python mistral-cli.py -p "What is the capital of New York?"
 ```
 
 You can also specify a different [Mistral Model](https://docs.mistral.ai/getting-started/models/models_overview/) using the `-m` or `--model` flag:
 
-```bash
+```shell
 python mistral-cli.py -p "Write a haiku about Ghost of Tsushima." -m mistral-small
 ```
 
@@ -62,13 +62,13 @@ python mistral-cli.py -p "Write a haiku about Ghost of Tsushima." -m mistral-sma
 
 Use the `-i` or `--interactive` flag to start a continuous chat session.
 
-```bash
+```shell
 python mistral-cli.py -i
 ```
 
 You can also specify a different Mistral model for the interactive session:
 
-```bash
+```shell
 python mistral-cli.py -i -m mistral-tiny
 ```
 
@@ -78,9 +78,19 @@ Once in interactive mode, type your message at the `You:` prompt and press Enter
 
 To see all available command-line arguments, use the `--help` flag:
 
-```bash
+```shell
 python mistral-cli.py --help
 ```
+
+### List Available Models
+
+Use the `-l` or `--list` flag to see all available Mistral models:
+
+```shell
+python mistral-cli.py -l
+```
+
+This will display a list of all models that can be used with the script, fetched dynamically from the Mistral API.
 
 ## Error Handling
 
