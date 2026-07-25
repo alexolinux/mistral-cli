@@ -132,34 +132,35 @@ mistral() {
 
   local input=""
 
-  # detectar pipe
+  # Pipe detection
   if [[ ! -t 0 ]]; then
     input="$(cat)"
   fi
 
-  # se flags foram usadas
+  # If flags are used
   if [[ "$1" == -* ]]; then
     "$python" "$script" "$@"
     return
   fi
 
-  # pipe + argumento
+  # pipe + argument
   if [[ -n "$input" && $# -gt 0 ]]; then
     "$python" "$script" -p "$*"$'\n\n'"$input"
-  
-  # somente pipe
+
+  # Pipe only
   elif [[ -n "$input" ]]; then
     "$python" "$script" -p "$input"
 
-  # somente argumento
+  # Argument only
   elif [[ $# -gt 0 ]]; then
     "$python" "$script" -p "$*"
 
-  # modo interativo
+  # Interactive Mode
   else
     "$python" "$script" -i
   fi
 }
+
 ```
 
 *Note: Make sure to replace `"${PKG}/mistral-cli"` with the actual path to the `mistral-cli` directory if you don't have a `$PKG` variable set.*
