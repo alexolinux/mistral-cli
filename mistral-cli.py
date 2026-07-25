@@ -6,18 +6,34 @@ import os
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", "YOUR_MISTRAL_API_KEY")
 MISTRAL_API_BASE_URL = "https://api.mistral.ai/v1/chat/completions"
 
-# Available models:
-# https://docs.mistral.ai/getting-started/models
-# [ "mistral-tiny", "devstral-latest", "devstral-medium-latest", "devstral-2512", "labs-mistral-small-creative" ]
-DEFAULT_MODEL = "devstral-2512"
+# Dynamically fetch available models from Mistral API
+def get_available_models():
+    try:
+        # Assuming Mistral API has a models endpoint (adjust URL if needed)
+        models_url = "https://api.mistral.ai/v1/models"  # Example endpoint
+        headers = {
+            "Authorization": f"Bearer {MISTRAL_API_KEY}"
+        }
+        response = requests.get(models_url, headers=headers)
+        response.raise_for_status()
+        models_data = response.json()
+        
+        # Extract model names from response (adjust based on actual API response structure)
+        available_models = [model["id"] for model in models_data.get("data", [])]
+        return available_models
+    except Exception as e:
+        print(f"Error fetching models from API: {e}")
+        # Fallback to hardcoded list if API call fails
+        return [
+            "mistral-tiny",
+            "devstral-latest",
+            "devstral-medium-latest",
+            "devstral-2512",
+            "labs-mistral-small-creative"
+        ]
 
-AVAILABLE_MODELS = [
-    "mistral-tiny",
-    "devstral-latest",
-    "devstral-medium-latest",
-    "devstral-2512",
-    "labs-mistral-small-creative"
-]
+AVAILABLE_MODELS = get_available_models()
+DEFAULT_MODEL = AVAILABLE_MODELS[0]
 
 def call_mistral_api(prompt, model=DEFAULT_MODEL):
     if MISTRAL_API_KEY == "YOUR_MISTRAL_API_KEY":
